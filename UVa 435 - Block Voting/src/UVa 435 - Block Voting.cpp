@@ -4,7 +4,7 @@ using namespace std;
 
 int main() {
 	int TC, n, p[20], total;
-	int i, count=0;
+	int i, count = 0;
 
 	scanf("%d", &TC);
 
