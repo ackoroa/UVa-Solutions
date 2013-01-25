@@ -2,7 +2,7 @@
 #include <bitset>
 using namespace std;
 
-bitset<1000005> bs;
+bitset<2000005> bs;
 
 int main() {
 	int one, rep, s, e, itv;
@@ -13,14 +13,12 @@ int main() {
 		for (int i = 0; i < one; i++) {
 			scanf("%d %d", &s, &e);
 			if (!conflict) {
-				for (int j = s; j <= e; j++) {
-					if (bs.test(j) && j != e)
+				for (int j = 2 * s + 1; j <= 2 * e; j++) {
+					if (bs.test(j)) {
 						conflict = true;
-					if (j == s && !bs.test(j + 1))
-						conflict = false;
-					bs.set(j);
-					if (conflict)
 						break;
+					}
+					bs.set(j);
 				}
 			}
 		}
@@ -29,16 +27,13 @@ int main() {
 			scanf("%d %d %d", &s, &e, &itv);
 			if (!conflict) {
 				while (true) {
-					for (int j = s; j <= e; j++) {
-						if (bs.test(j) && j != e)
+					for (int j = 2 * s + 1; j <= 2 * e; j++) {
+						if (bs.test(j)) {
 							conflict = true;
-						if (j == s && !bs.test(j + 1))
-							conflict = false;
+							break;
+						}
 						bs.set(j);
-						if(conflict)break;
 					}
-					if (conflict)
-						break;
 					s += itv;
 					e += itv;
 					if (s > 1000000 && e > 1000000)
@@ -49,10 +44,12 @@ int main() {
 			}
 		}
 
-		if(conflict) printf("CONFLICT\n");
-		else printf("NO CONFLICT\n");
+		if (conflict)
+			printf("CONFLICT\n");
+		else
+			printf("NO CONFLICT\n");
 
-		for (int i = 0; i < 1000000; i++) {
+		for (int i = 0; i < 2000005; i++) {
 			bs.reset(i);
 		}
 	}
