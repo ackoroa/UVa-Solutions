@@ -17,7 +17,7 @@ int main() {
 		scanf("%d %d", &v, &t);
 
 		int minc = 10000000, tf, tcost;
-		for (int s = 0; s < (1 << n) - 1; s++) {
+		for (int s = 0; s < (1 << n); s++) {
 			tf = tcost = 0;
 			for (int i = 0; i < n; i++) {
 				if (1 & (s >> i)) {
