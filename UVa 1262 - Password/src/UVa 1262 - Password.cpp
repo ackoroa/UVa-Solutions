@@ -58,10 +58,9 @@ int main() {
 									&& binary_search(b[1], b[1] + 6, p2)
 									&& binary_search(b[2], b[2] + 6, p3)
 									&& binary_search(b[3], b[3] + 6, p4)
-									&& binary_search(b[4], b[4] + 6, p5)) {
-								//printf("%c%c%c%c%c\n", p1, p2, p3, p4, p5);
+									&& binary_search(b[4], b[4] + 6, p5))
 								count++;
-							}
+
 							if (count == q)
 								break;
 						}
@@ -83,6 +82,5 @@ int main() {
 		else
 			printf("NO\n");
 	}
-
 	return 0;
 }
