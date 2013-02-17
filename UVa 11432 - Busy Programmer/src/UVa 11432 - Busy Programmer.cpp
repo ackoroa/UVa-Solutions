@@ -29,7 +29,6 @@ long long sched(int t0, int t1, int g, int cur) {
 }
 
 int main(void) {
-
 	int count = 0;
 	while (scanf("%d %d", &D, &G), (D != -1) && (G != -1)) {
 		count++;
