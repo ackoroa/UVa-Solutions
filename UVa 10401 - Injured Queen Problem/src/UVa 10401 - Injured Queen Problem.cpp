@@ -33,7 +33,7 @@ int main() {
 	while (scanf("%s", s) != EOF) {
 		n = strlen(s);
 		for (int i = 1; i <= n; i++) {
-			c = s[i-1];
+			c = s[i - 1];
 			if (c == '?')
 				givenRow[i] = 0;
 			else if (isdigit(c))
