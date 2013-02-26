@@ -1,41 +1,40 @@
-#include <iostream>
 #include <cstdio>
 #include <string>
+#include <cstring>
 #include <map>
 using namespace std;
 
 int main() {
 	int n;
+	map<string, int> logbook;
+	char name[35];
 
-	cin >> n;
-	cin.ignore();
-	cin.ignore();
-
-	while (n > 0) {
-		map<string, int> logbook;
-		string name;
-		int total;
+	scanf("%d\n\n", &n);
+	while (n--) {
+		int total = 0;
 
 		total = 0;
-		while (true) {
-			getline(cin, name);
-			if (name.empty())
+		while (gets(name)) {
+			if (strlen(name) == 0)
 				break;
 
-			if (logbook.count(name) == 0) {
-				logbook[name] = 0;
-			}
-			logbook[name] = logbook[name] + 1;
+			if (logbook.count(string(name)) == 0) {
+				logbook[string(name)] = 1;
+			} else
+				logbook[string(name)] = logbook[string(name)] + 1;
+
 			total++;
 		}
 
 		map<string, int>::iterator it;
 		for (it = logbook.begin(); it != logbook.end(); it++) {
-			cout << (*it).first << " ";
-			printf("%.4lf\n", (double)(*it).second/(double)total *100.0);
+			printf("%s %.4lf\n", (*it).first.data(),
+					(double) (*it).second / (double) total * 100.0);
 		}
-		n--;
-		if(n>0) cout << endl;
+		if (n > 0){
+			printf("\n");
+			logbook.clear();
+		}
 	}
 
 	return 0;
