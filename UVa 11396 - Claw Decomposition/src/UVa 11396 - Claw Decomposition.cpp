@@ -13,8 +13,8 @@ int main() {
 		AdjList.assign(V, vi());
 
 		while (scanf("%d %d", &u, &v), u || v) {
-			AdjList[u-1].push_back(v-1);
-			AdjList[v-1].push_back(u-1);
+			AdjList[u - 1].push_back(v - 1);
+			AdjList[v - 1].push_back(u - 1);
 		}
 
 		queue<int> q;
