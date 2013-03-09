@@ -7,7 +7,7 @@
 #include <cstring>
 using namespace std;
 
-typedef pair<int,int> ii;
+typedef pair<int, int> ii;
 typedef vector<int> vi;
 typedef vector<ii> vii;
 
@@ -15,6 +15,7 @@ typedef vector<ii> vii;
 #define MAX_V 38
 
 int res[MAX_V][MAX_V], mf, f, s, t;
+vector<vi> AdjList;
 vi p;
 
 int total, n;
@@ -35,10 +36,14 @@ void augment(int v, int minEdge) {
 void readInputAndSetup() {
 	total = 0;
 	memset(res, 0, sizeof res);
+	AdjList.assign(MAX_V, vi());
 	s = 0;
 	t = MAX_V - 1;
-	for (int i = 27; i < MAX_V - 1; i++)
+	for (int i = 27; i < MAX_V - 1; i++) {
 		res[i][t] = 1;
+		AdjList[i].push_back(t);
+		AdjList[t].push_back(i);
+	}
 	while (true) {
 		if (scanf("%c", &app) == EOF) {
 			fin = true;
@@ -48,6 +53,8 @@ void readInputAndSetup() {
 			break;
 		scanf("%d ", &n);
 		res[0][app - 'A' + 1] = n;
+		AdjList[0].push_back(app - 'A' + 1);
+		AdjList[app - 'A' + 1].push_back(0);
 		total += n;
 
 		while (true) {
@@ -57,6 +64,8 @@ void readInputAndSetup() {
 				break;
 			}
 			res[app - 'A' + 1][pc - '0' + 27] = 1;
+			AdjList[app - 'A' + 1].push_back(pc - '0' + 27);
+			AdjList[pc - '0' + 27].push_back(app - 'A' + 1);
 		}
 	}
 }
@@ -75,7 +84,8 @@ void EdmondKarps() {
 			q.pop();
 			if (u == t)
 				break;
-			for (int v = 0; v < MAX_V; v++) {
+			for (int i = 0; i < (int) AdjList[u].size(); i++) {
+				int v = AdjList[u][i];
 				if (res[u][v] > 0 && !visited.test(v)) {
 					visited.set(v);
 					q.push(v);
