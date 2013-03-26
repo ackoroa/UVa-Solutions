@@ -1,55 +1,97 @@
+// just in case I need it :D
+
 #include <cstdio>
 #include <vector>
+#include <queue>
 #include <cstring>
 #include <cmath>
 using namespace std;
 
 typedef vector<int> vi;
 
-vi match, vis; // global variables
-vector<vi> AdjList;
+#define MAXV 1001
+#define INF 1e9
 
-int Aug(int l) { // return 1 if there exists an augmenting path
-	if (vis[l])
-		return 0; // return 0 otherwise
-	vis[l] = 1;
-	for (int j = 0; j < (int) AdjList[l].size(); j++) {
-		int r = AdjList[l][j];
-		if (match[r] == -1 || Aug(match[r])) {
-			match[r] = l;
-			return 1; // found 1 matching
+vector<vi> AdjList;
+vi match, dist;
+int V, VLeft;
+
+bool bfs() {
+	queue<int> q;
+	for (int i = 1; i <= VLeft; i++) {
+		if (match[i] == 0) {
+			dist[i] = 0;
+			q.push(i);
+		} else
+			dist[i] = INF;
+	}
+	dist[0] = INF;
+	while (!q.empty()) {
+		int u = q.front();
+		q.pop();
+		if (u != 0) {
+			for (int i = 0; i < (int) AdjList[u].size(); i++) {
+				int v = AdjList[u][i];
+				if (dist[match[v]] == INF) {
+					dist[match[v]] = dist[u] + 1;
+					q.push(match[v]);
+				}
+			}
 		}
 	}
-	return 0; // no matching
+	return (dist[0] != INF);
+}
+
+bool dfs(int u) {
+	if (u != 0) {
+		for (int i = 0; i < (int) AdjList[u].size(); i++) {
+			int v = AdjList[u][i];
+			if (dist[match[v]] == dist[u] + 1) {
+				if (dfs(match[v])) {
+					match[v] = u;
+					match[u] = v;
+					return true;
+				}
+			}
+		}
+		dist[u] = INF;
+		return false;
+	}
+	return true;
+}
+
+int hopkarp() {
+	match.assign(V, 0);
+	dist.assign(V, 0);
+	int matching = 0, i;
+	while (bfs())
+		for (i = 1; i <= VLeft; i++)
+			if (match[i] == 0 && dfs(i))
+				matching++;
+	return matching;
 }
 
 int main() {
-	int tc, V, VLeft, caseno = 1;
+	int tc, caseno = 1;
 	int nuts, bolts;
 	int fits;
 
 	scanf("%d", &tc);
 	while (tc--) {
 		scanf("%d%d", &bolts, &nuts);
-		V = bolts + nuts;
+		V = bolts + nuts + 1;
 		VLeft = bolts;
 		AdjList.assign(V, vi());
 
-		for (int b = 0; b < bolts; b++) {
-			for (int n = 0; n < nuts; n++) {
+		for (int b = 1; b <= bolts; b++) {
+			for (int n = 1; n <= nuts; n++) {
 				scanf("%d", &fits);
 				if (fits)
 					AdjList[b].push_back(n + bolts);
 			}
 		}
 
-		int MCBM = 0;
-		match.assign(V, -1);
-
-		for (int l = 0; l < VLeft; l++) {
-			vis.assign(VLeft, 0);
-			MCBM += Aug(l);
-		}
+		int MCBM = hopkarp();
 
 		printf("Case %d: ", caseno++);
 		printf("a maximum of %d nuts and bolts ", MCBM);
