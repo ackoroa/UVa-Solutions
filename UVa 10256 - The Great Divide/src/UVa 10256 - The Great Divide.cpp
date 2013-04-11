@@ -21,7 +21,7 @@ struct point {
 		return y < p.y;
 	}
 	bool operator ==(point p) const {
-		return fabs(x - p.x) < EPS && fabs(x - p.y) < EPS;
+		return fabs(x - p.x) < EPS && fabs(y - p.y) < EPS;
 	}
 };
 
