@@ -5,7 +5,7 @@
 using namespace std;
 
 double memo[(1 << 16)];
-int n, x[10], y[10];
+int n, x[16], y[16];
 
 double dist(int i, int j) {
 	return sqrt((x[i] - x[j]) * (x[i] - x[j]) + (y[i] - y[j]) * (y[i] - y[j]));
